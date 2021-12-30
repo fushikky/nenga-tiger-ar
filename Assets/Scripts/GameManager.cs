@@ -8,6 +8,7 @@ enum Anim {
     Jog,
     Dance,
     Jump,
+    Hanetsuki,
 }
 
 public class GameManager : MonoBehaviour

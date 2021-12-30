@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1641345885}
-  anims: 0000000001000000020000000300000004000000
+  anims: 000000000100000005000000030000000200000004000000
   index: 0
   kiteObj: {fileID: 1066982994}
 --- !u!114 &101450854
