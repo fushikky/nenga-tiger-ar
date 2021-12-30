@@ -5,13 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Demos/Marker/AR Marker Simple Button/ARMarker Simple Button.unity
-    guid: 248dda6d9653f4ec5bb7484b9e0875af
-  - enabled: 0
-    path: Assets/Demos/Marker/AR Crash Bandicoot/AR Crash Bandicoot.unity
-    guid: b7376c26899f01c4ab663716bb6386e7
   - enabled: 1
-    path: Assets/Scenes/ARMeishiFushikky.unity
-    guid: a50833a8ae8464aa4ae16dfa693453ed
+    path: Assets/Scenes/NengaTigerAR.unity
+    guid: 318d020c83ac65548acf6a94cf2d21f1
   m_configObjects: {}
