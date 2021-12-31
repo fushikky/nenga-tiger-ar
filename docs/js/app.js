@@ -3,27 +3,27 @@ let isCameraReady = false;
 let isDetectionManagerReady = false;
 let gl = null;
 
-function cameraReady(){
+function cameraReady() {
     isCameraReady = true;
     gl = unityInstance.Module.ctx;
 }
 
-function detectionManagerReady(){
+function detectionManagerReady() {
     isDetectionManagerReady = true;
 }
 
-function createUnityMatrix(el){
+function createUnityMatrix(el) {
     const m = el.matrix.clone();
     const zFlipped = new THREE.Matrix4().makeScale(1, 1, -1).multiply(m);
-    const rotated = zFlipped.multiply(new THREE.Matrix4().makeRotationX(-Math.PI/2));
+    const rotated = zFlipped.multiply(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
     return rotated;
 }
 
 AFRAME.registerComponent('markercontroller', {
     schema: {
-        name : {type: 'string'}
+        name: { type: 'string' }
     },
-    tock: function(time, timeDelta){
+    tock: function (time, timeDelta) {
 
         let position = new THREE.Vector3();
         let rotation = new THREE.Quaternion();
@@ -31,16 +31,23 @@ AFRAME.registerComponent('markercontroller', {
 
         createUnityMatrix(this.el.object3D).decompose(position, rotation, scale);
 
-        const serializedInfos = `${this.data.name},${this.el.object3D.visible},${position.toArray()},${rotation.toArray()},${scale.toArray()}`;
+        var a = scale.toArray();
+        var scaleAry = [
+            a[0] * 100,
+            a[1] * 100,
+            a[2] * 100,
+        ];
+        const serializedInfos = `${this.data.name},${this.el.object3D.visible},${position.toArray()},${rotation.toArray()},${scaleAry}`;
+        // const serializedInfos = `${this.data.name},${this.el.object3D.visible},${position.toArray()},${rotation.toArray()},${scale.toArray()}`;
 
-        if(isDetectionManagerReady){
-          unityInstance.SendMessage("DetectionManager", "markerInfos", serializedInfos);
+        if (isDetectionManagerReady) {
+            unityInstance.SendMessage("DetectionManager", "markerInfos", serializedInfos);
         }
-    } 
+    }
 });
 
 AFRAME.registerComponent('cameratransform', {
-    tock: function(time, timeDelta){
+    tock: function (time, timeDelta) {
 
         let camtr = new THREE.Vector3();
         let camro = new THREE.Quaternion();
@@ -53,14 +60,14 @@ AFRAME.registerComponent('cameratransform', {
 
         const posCam = `${[...camtr.toArray()]}`
         const rotCam = `${[...camro.toArray()]}`
- 
-        if(isCameraReady){
+
+        if (isCameraReady) {
             unityInstance.SendMessage("Main Camera", "setProjection", serializedProj);
             unityInstance.SendMessage("Main Camera", "setPosition", posCam);
             unityInstance.SendMessage("Main Camera", "setRotation", rotCam);
 
             let w = window.innerWidth;
-            let h = window.innerHeight; 
+            let h = window.innerHeight;
 
             const unityCanvas = document.getElementsByTagName('canvas')[0];
 
@@ -74,16 +81,16 @@ AFRAME.registerComponent('cameratransform', {
             unityInstance.SendMessage("Canvas", "setSize", size);
         }
 
-        if(gl != null){
+        if (gl != null) {
             gl.dontClearOnFrameStart = true;
         }
-    } 
+    }
 });
 
 AFRAME.registerComponent('copycanvas', {
-    tick: function(time, timeDelta){
+    tick: function (time, timeDelta) {
         const unityCanvas = document.getElementsByTagName('canvas')[0];
         unityCanvas.width = this.el.canvas.width
         unityCanvas.height = this.el.canvas.height
-    } 
+    }
 });
