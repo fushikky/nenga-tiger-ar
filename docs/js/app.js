@@ -33,9 +33,9 @@ AFRAME.registerComponent('markercontroller', {
 
         var posAry = position.toArray();
         posAry = [
-            posAry[0],
+            posAry[0] + 250,
             posAry[1],
-            posAry[2],
+            posAry[2] + 250,
         ];
         var rotAry = rotation.toArray();
         var a = scale.toArray();
