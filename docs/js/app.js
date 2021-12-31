@@ -32,9 +32,14 @@ AFRAME.registerComponent('markercontroller', {
         createUnityMatrix(this.el.object3D).decompose(position, rotation, scale);
 
         var posAry = position.toArray();
+        posAry = [
+            posAry[0] + 250,
+            posAry[1],
+            posAry[2] + 250,
+        ];
         var rotAry = rotation.toArray();
         var a = scale.toArray();
-        var s = 500.0;
+        var s = 200.0;
         var scaleAry = [
             a[0] * s,
             a[1] * s,
