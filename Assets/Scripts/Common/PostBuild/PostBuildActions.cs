@@ -23,8 +23,8 @@ namespace ARWT.Core{
         static string index = "index.html";
         static string appJS = "js/app.js";
 
-        // static bool isImageTracking = true;
-        static bool isImageTracking = false;
+        static bool isImageTracking = true;
+        // static bool isImageTracking = false;
 
         [PostProcessBuild]
         public static void OnPostProcessBuild(BuildTarget target, string targetPath){
@@ -100,8 +100,8 @@ namespace ARWT.Core{
                 }
             }
 
-            // string host = "https://fushikky.github.io/nenga-tiger-ar/";
-            string host = "";
+            string host = "https://fushikky.github.io/nenga-tiger-ar/";
+            // string host = "";
             imagemarkersPath =  host + imagemarkersPath;
             if (isImageTracking == true) {
                 html += $"\t\t\t<a-nft type='nft' url='{imagemarkersPath}/trex'";

@@ -10,6 +10,7 @@ enum Anim {
     Dance,
     Jump,
     Hanetsuki,
+    Sitting,
 }
 
 public class GameManager : MonoBehaviour
@@ -33,20 +34,30 @@ public class GameManager : MonoBehaviour
     GameObject kiteObj;
     [SerializeField]
     GameObject wing;
+
     [SerializeField]
     GameObject hagoita;
+    [SerializeField]
+    GameObject kotatsu;
 
     Anim currentAnim;
+    float elapsedTime = 0f;
+
+    [SerializeField]
+    float duration = 1000;
 
     void Awake() {
         HideAllObj();
         currentAnim = anims[index];
+        animator.Play(currentAnim.ToString());
+        ShowAnim();
     }
 
     void HideAllObj() {
         kiteObj.SetActive(false);
         wing.SetActive(false);
         hagoita.SetActive(false);
+        kotatsu.SetActive(false);
     }
 
     void ShowAnim() {
@@ -59,11 +70,18 @@ public class GameManager : MonoBehaviour
                 wing.SetActive(true);
                 hagoita.SetActive(true);
                 break;
- 
+            case Anim.Sitting:
+                kotatsu.SetActive(true);
+                break;
         }
     }
 
     void Update() {
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime > duration) {
+            elapsedTime = 0;
+            Next();
+        }
         var camPos = Camera.main.transform.position;
         var camScale =Camera.main.transform.localScale;
         var originPos = origin.position;
@@ -73,6 +91,7 @@ public class GameManager : MonoBehaviour
     }
 
    public void Next() {
+       Debug.Log("next");
         NextIndex();
         animator.Play(anims[index].ToString());
         ShowAnim();
@@ -85,7 +104,7 @@ public class GameManager : MonoBehaviour
     }
 
     void NextIndex() {
-        if (anims.Length -1 < index ) {
+        if (anims.Length -1 <= index ) {
             index = 0;
         } else {
             index++;

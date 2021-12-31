@@ -10,21 +10,22 @@ namespace ARWT.Marker{
         public float updateSpeed = 10;
         public float positionThreshold = 0;
 
-        public GameObject uiHelper, gameUI;
+        public GameObject uiHelper;
+        // public GameObject gameUI;
 
         bool firstTime = true;
 
         void Start() {
             DetectionManager.onMarkerVisible += onMarkerVisible;
             DetectionManager.onMarkerLost += onMarkerLost;
-            gameUI?.SetActive(false);
+            // gameUI?.SetActive(false);
         }
 
         void onMarkerVisible(MarkerInfo m){
             //if(m.name == markerToListen){
                 child?.SetActive(true);
                 uiHelper?.SetActive(false);
-                gameUI?.SetActive(true);
+                // gameUI?.SetActive(true);
 
                 if (!firstTime){
                     if(Vector3.Distance(m.position, transform.position) > positionThreshold){
@@ -48,12 +49,12 @@ namespace ARWT.Marker{
         }
 
         void onMarkerLost(MarkerInfo m){
-            if(m.name == markerToListen){
-                child?.SetActive(false);
-                uiHelper?.SetActive(true);
-                gameUI?.SetActive(false);
-                firstTime = true;
-            }
+            // if(m.name == markerToListen){
+            child?.SetActive(false);
+            uiHelper?.SetActive(true);
+            // gameUI?.SetActive(false);
+            firstTime = true;
+            // }
         }
     }
 }
