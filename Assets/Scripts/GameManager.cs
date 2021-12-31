@@ -90,8 +90,7 @@ public class GameManager : MonoBehaviour
         originText.text = "originPos:" + originPos.x.ToString("F1") + "," + originPos.y.ToString("F1") + "," + originPos.z.ToString("F1") + ",scale:" + originScale.x;
     }
 
-   public void Next() {
-       Debug.Log("next");
+    public void Next() {
         NextIndex();
         animator.Play(anims[index].ToString());
         ShowAnim();

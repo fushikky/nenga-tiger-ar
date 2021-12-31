@@ -23,11 +23,12 @@ namespace ARWT.Core{
         static string index = "index.html";
         static string appJS = "js/app.js";
 
-        static bool isImageTracking = true;
-        // static bool isImageTracking = false;
+        // static bool isImageTracking = true;
+        static bool isImageTracking = false;
 
         [PostProcessBuild]
         public static void OnPostProcessBuild(BuildTarget target, string targetPath){
+            Debug.Log($"targetPath: {targetPath}");
             var path = Path.Combine(targetPath, "Build/UnityLoader.js");
             var text = File.ReadAllText(path);
             text = text.Replace("UnityLoader.SystemInfo.mobile", "false");
@@ -77,6 +78,7 @@ namespace ARWT.Core{
             // var completeMarkersPath = Path.Combine(targetPath, markersPath);
             // var completeMarkersPath = Path.Combine(targetPath, imagemarkersPath);
             var completeMarkersPath = Path.Combine(targetPath, path);
+            Debug.Log("completeMarkersPath:" + completeMarkersPath);
 
             if(Directory.Exists(completeMarkersPath)){
                 Directory.Delete(completeMarkersPath, true);
@@ -105,7 +107,8 @@ namespace ARWT.Core{
             imagemarkersPath =  host + imagemarkersPath;
             if (isImageTracking == true) {
                 html += $"\t\t\t<a-nft type='nft' url='{imagemarkersPath}/trex'";
-                html += "smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5' markercontroller='name : kite'>";
+                html += "smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5' markercontroller='name : kite'>\n";
+                html += "<a-box scale='50 50' position='50 150 -100'></a-box>\n";
                 html += "</a-nft>\n";
             }
 

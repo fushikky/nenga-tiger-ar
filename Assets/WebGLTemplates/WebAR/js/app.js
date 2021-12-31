@@ -39,7 +39,7 @@ AFRAME.registerComponent('markercontroller', {
         ];
         var rotAry = rotation.toArray();
         var a = scale.toArray();
-        var s = 200.0;
+        var s = 1.0;
         var scaleAry = [
             a[0] * s,
             a[1] * s,
