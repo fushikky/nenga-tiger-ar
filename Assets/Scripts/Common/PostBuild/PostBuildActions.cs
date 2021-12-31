@@ -77,7 +77,7 @@ namespace ARWT.Core{
 
             // var completeMarkersPath = Path.Combine(targetPath, markersPath);
             // var completeMarkersPath = Path.Combine(targetPath, imagemarkersPath);
-            var completeMarkersPath = Path.Combine(targetPath, path);
+            var completeMarkersPath = Path.Combine(targetPath + "/", path);
             Debug.Log("completeMarkersPath:" + completeMarkersPath);
 
             if(Directory.Exists(completeMarkersPath)){
