@@ -13,13 +13,18 @@ namespace ARWT.Core{
         const string markerPlaceholder = "--MARKERS--";
         const string buildPlaceholder = "%UNITY_WEBGL_BUILD_URL%";
         static string projectMarkers = "Assets/Resources/Markers";
+        static string projectImageMarkers = "Assets/Resources/ImageMarkers";
         static string projectMarkersImages = "Assets/Resources/Images";
-        static string markersPath = "data/markers";
-        static string markersImagesPath = "data/markersImages";
+        // 
+        static string markersPath = "data/markers/";
+        static string imagemarkersPath = "data/imagemarkers/";
+        static string markersImagesPath = "data/markersImages/";
+        static string imageMarkersImagesPath = "data/imageMarkersImages/";
         static string index = "index.html";
         static string appJS = "js/app.js";
 
-        
+        // static bool isImageTracking = true;
+        static bool isImageTracking = false;
 
         [PostProcessBuild]
         public static void OnPostProcessBuild(BuildTarget target, string targetPath){
@@ -51,22 +56,57 @@ namespace ARWT.Core{
 
         static void generateHTML(string targetPath){
             string html = "";
+            string project;
 
-            var info = new DirectoryInfo(projectMarkers);
+            if (isImageTracking == false) {
+                project = projectMarkers;
+            } else{
+                project = projectImageMarkers;
+            }
+            // var info = new DirectoryInfo(projectMarkers);
+
+            var info = new DirectoryInfo(project);
             var fileInfo = info.GetFiles();
-            var completeMarkersPath = Path.Combine(targetPath, markersPath);
+            string path;
+            if (isImageTracking == false) {
+                path = markersPath;
+            } else {
+                path = imagemarkersPath;
+            }
+
+            // var completeMarkersPath = Path.Combine(targetPath, markersPath);
+            // var completeMarkersPath = Path.Combine(targetPath, imagemarkersPath);
+            var completeMarkersPath = Path.Combine(targetPath, path);
+
             if(Directory.Exists(completeMarkersPath)){
                 Directory.Delete(completeMarkersPath, true);
             }
             Directory.CreateDirectory(completeMarkersPath);
 
             foreach (var file in fileInfo){
-                if(file.Extension == ".patt"){
-                    FileUtil.CopyFileOrDirectory(file.FullName, Path.Combine(completeMarkersPath, file.Name));
-                    var markerName = file.Name.Replace(file.Extension, "");
-                    var markerUrl = Path.Combine(markersPath, file.Name);
-                    html += $"\t\t\t<a-marker type=\"pattern\" url=\"{markerUrl}\" markercontroller=\"name : {markerName}\"></a-marker>\n";
+                if (isImageTracking == false) {
+                    if(file.Extension == ".patt"){
+                        FileUtil.CopyFileOrDirectory(file.FullName, Path.Combine(completeMarkersPath, file.Name));
+                        var markerName = file.Name.Replace(file.Extension, "");
+                        var markerUrl = Path.Combine(path, file.Name);
+                        html += $"\t\t\t<a-marker type=\"pattern\" url=\"{markerUrl}\" markercontroller=\"name : {markerName}\"></a-marker>\n";
+                    }
+                } else {
+                    if(file.Extension != ".meta"){
+                        FileUtil.CopyFileOrDirectory(file.FullName, Path.Combine(completeMarkersPath, file.Name));
+                        // var markerName = file.Name.Replace(file.Extension, "");
+                        // var markerUrl = Path.Combine(imagemarkersPath, file.Name);
+                    }
                 }
+            }
+
+            // string host = "https://fushikky.github.io/nenga-tiger-ar/";
+            string host = "";
+            imagemarkersPath =  host + imagemarkersPath;
+            if (isImageTracking == true) {
+                html += $"\t\t\t<a-nft type='nft' url='{imagemarkersPath}/trex'";
+                html += "smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5' markercontroller='name : kite'>";
+                html += "</a-nft>\n";
             }
 
             replaceInFile(Path.Combine(targetPath, index), markerPlaceholder, html);
@@ -88,7 +128,7 @@ namespace ARWT.Core{
         static void copyImages(string targetPath){
             var info = new DirectoryInfo(projectMarkersImages);
             var fileInfo = info.GetFiles();
-            var completeImagesPath = Path.Combine(targetPath, markersImagesPath);
+            var completeImagesPath = Path.Combine(targetPath, imageMarkersImagesPath);
             if(Directory.Exists(completeImagesPath)){
                 Directory.Delete(completeImagesPath, true);
             }

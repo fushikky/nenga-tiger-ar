@@ -4,7 +4,8 @@ using UnityEngine.UI;
 namespace ARWT.Marker{
     public class GenericController : MonoBehaviour{
 
-        public string markerToListen = "hiro";
+        [SerializeField]
+        public string markerToListen = "kite";
         public GameObject child;
         public float updateSpeed = 10;
         public float positionThreshold = 0;
@@ -16,10 +17,11 @@ namespace ARWT.Marker{
         void Start() {
             DetectionManager.onMarkerVisible += onMarkerVisible;
             DetectionManager.onMarkerLost += onMarkerLost;
+            gameUI?.SetActive(false);
         }
 
         void onMarkerVisible(MarkerInfo m){
-            if(m.name == markerToListen){
+            //if(m.name == markerToListen){
                 child?.SetActive(true);
                 uiHelper?.SetActive(false);
                 gameUI?.SetActive(true);
@@ -42,7 +44,7 @@ namespace ARWT.Marker{
                 );
 
                 transform.localScale = absScale;
-            }
+            //}
         }
 
         void onMarkerLost(MarkerInfo m){

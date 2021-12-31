@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 enum Anim {
     Idle,
@@ -15,7 +16,13 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     Animator animator;
+    [SerializeField]
+    Text camPosText;
+    [SerializeField]
+    Text originText;
 
+    [SerializeField]
+    Transform origin;
     [SerializeField]
     Anim[] anims;
 
@@ -24,6 +31,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GameObject kiteObj;
+    [SerializeField]
+    GameObject wing;
+    [SerializeField]
+    GameObject hagoita;
+
     Anim currentAnim;
 
     void Awake() {
@@ -33,14 +45,31 @@ public class GameManager : MonoBehaviour
 
     void HideAllObj() {
         kiteObj.SetActive(false);
+        wing.SetActive(false);
+        hagoita.SetActive(false);
     }
+
     void ShowAnim() {
         HideAllObj();
         switch(currentAnim) {
             case Anim.Kite:
                 kiteObj.SetActive(true);
                 break;
+            case Anim.Hanetsuki:
+                wing.SetActive(true);
+                hagoita.SetActive(true);
+                break;
+ 
         }
+    }
+
+    void Update() {
+        var camPos = Camera.main.transform.position;
+        var camScale =Camera.main.transform.localScale;
+        var originPos = origin.position;
+        var originScale = origin.localScale;
+        camPosText.text = "camPos:" + camPos.x.ToString("F1") + "," + camPos.y.ToString("F1") + "," + camPos.z.ToString("F1") + ",scale:" + camScale.x;;
+        originText.text = "originPos:" + originPos.x.ToString("F1") + "," + originPos.y.ToString("F1") + "," + originPos.z.ToString("F1") + ",scale:" + originScale.x;
     }
 
    public void Next() {
