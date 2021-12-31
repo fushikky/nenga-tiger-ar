@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject kotatsu;
 
+    [SerializeField]
+    GameObject onpu;
+
     Anim currentAnim;
     float elapsedTime = 0f;
 
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
         wing.SetActive(false);
         hagoita.SetActive(false);
         kotatsu.SetActive(false);
+        onpu.SetActive(false);
     }
 
     void ShowAnim() {
@@ -72,6 +76,7 @@ public class GameManager : MonoBehaviour
                 break;
             case Anim.Sitting:
                 kotatsu.SetActive(true);
+                onpu.SetActive(true);
                 break;
         }
     }
