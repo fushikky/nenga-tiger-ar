@@ -32,10 +32,11 @@ AFRAME.registerComponent('markercontroller', {
         createUnityMatrix(this.el.object3D).decompose(position, rotation, scale);
 
         var a = scale.toArray();
+        var s = 1.0;
         var scaleAry = [
-            a[0] * 100,
-            a[1] * 100,
-            a[2] * 100,
+            a[0] * s,
+            a[1] * s,
+            a[2] * s,
         ];
         const serializedInfos = `${this.data.name},${this.el.object3D.visible},${position.toArray()},${rotation.toArray()},${scaleAry}`;
         // const serializedInfos = `${this.data.name},${this.el.object3D.visible},${position.toArray()},${rotation.toArray()},${scale.toArray()}`;
